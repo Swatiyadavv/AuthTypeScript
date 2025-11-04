@@ -141,7 +141,8 @@ export const forgotPassword = async (req: Request, res: Response) => {
 // 🟢 RESET PASSWORD (using tempToken)
 export const resetPassword = async (req: Request, res: Response) => {
   try {
-    const { otp, newPassword } = req.body;
+    const { newPassword } = req.body;
+
     const token = req.headers.authorization?.split(" ")[1];
     if (!token) return res.status(401).json(errorResponse("Token required"));
 
@@ -149,10 +150,7 @@ export const resetPassword = async (req: Request, res: Response) => {
     const admin = await Admin.findById(decoded.id);
     if (!admin) return res.status(404).json(errorResponse("Admin not found"));
 
-    if (!admin.otp || !admin.otpExpire) return res.status(400).json(errorResponse("No OTP found"));
-    if (admin.otpExpire < new Date()) return res.status(400).json(errorResponse("OTP expired"));
-    if (admin.otp !== otp) return res.status(400).json(errorResponse("Invalid OTP"));
-
+    // ✅ Directly reset password without OTP check
     admin.password = await hashPassword(newPassword);
     admin.otp = null;
     admin.otpExpire = null;
