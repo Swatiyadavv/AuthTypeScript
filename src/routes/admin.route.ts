@@ -7,17 +7,18 @@ import {
   forgotPassword,
   resetPassword,
 } from "../controllers/admin.controller";
+import { verifyTempToken } from "../middlewares/verifyTempToken";
 
 const router = Router();
 
-// public
-router.post("/register", registerAdmin);         // register -> sends OTP
-router.post("/verify-register", verifyAdminOTP); // verify register OTP -> returns access token
+// Public routes
+router.post("/register", registerAdmin);
+router.post("/login", loginAdmin);
+router.post("/forgot", forgotPassword);
 
-router.post("/login", loginAdmin);               // login -> sends OTP
-router.post("/verify-login", verifyLoginOTP);    // verify login OTP -> returns access token
-
-router.post("/forgot", forgotPassword);          // forgot password -> sends OTP
-router.post("/reset", resetPassword);            // reset password using OTP
+// Routes that need tempToken verification
+router.post("/verify-register", verifyTempToken, verifyAdminOTP);
+router.post("/verify-login", verifyTempToken, verifyLoginOTP);
+router.post("/reset", verifyTempToken, resetPassword);
 
 export default router;
