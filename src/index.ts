@@ -1,13 +1,16 @@
 import dotenv from "dotenv";
 dotenv.config();
 import app from "./app";
-import connectDB from "./src/config/db";
+import connectDB from "./config/db";
 
-const PORT = process.env.PORT || 5000
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Admin Server running at http://localhost:${PORT}`);
+const PORT = process.env.PORT || 5000;
+
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`🚀 Admin Server running at http://localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to start server:", err);
   });
-}).catch((err) => {
-  console.error("Failed to start server:", err);
-});
