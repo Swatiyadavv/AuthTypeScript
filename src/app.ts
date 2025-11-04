@@ -6,6 +6,7 @@ const app: Application = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // ✅ add this line
 
 app.get("/", (req, res) => res.json({ success: true, message: "Admin Auth API" }));
 

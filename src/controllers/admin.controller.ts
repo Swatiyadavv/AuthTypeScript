@@ -18,7 +18,6 @@ import { successResponse, errorResponse } from "../formatter/responseFormatter";
 export const registerAdmin = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
-    // if any admin exists, don't allow new registration
     const anyAdmin = await Admin.findOne();
     if (anyAdmin) {
       return res.status(400).json(errorResponse("Admin already exists. Please login."));
@@ -51,6 +50,7 @@ export const registerAdmin = async (req: Request, res: Response) => {
     return res.status(500).json(errorResponse("Registration failed", err));
   }
 };
+
 
 // Verify OTP after register (confirm account -> returns access token)
 export const verifyAdminOTP = async (req: Request, res: Response) => {
@@ -117,6 +117,7 @@ export const verifyLoginOTP = async (req: Request, res: Response) => {
 
     if (!admin.otp || !admin.otpExpire) {
       return res.status(400).json(errorResponse("No OTP found. Please login again."));
+
     }
 
     if (admin.otpExpire < new Date()) {
