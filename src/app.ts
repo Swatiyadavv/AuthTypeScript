@@ -2,6 +2,8 @@ import express, { Application } from "express";
 import cors from "cors";
 import authRoutes from "../src/routes/admin.route";
 import userRoutes from "../src/routes/user.route";
+import subjectRoutes from "../src/routes/subject.routes";
+
 
 const app: Application = express();
 
@@ -13,6 +15,9 @@ app.get("/", (req, res) => res.json({ success: true, message: "Admin Auth API" }
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+
+app.use("/api/subjects", subjectRoutes);
+
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });

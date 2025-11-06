@@ -60,6 +60,7 @@ export const verifyAdminOTP = async (req: Request, res: Response) => {
     admin.otpExpire = null;
     await admin.save();
 
+    
     const accessToken = generateAccessToken(admin._id.toString());
     return res.status(200).json(successResponse("Account verified successfully", { accessToken }));
   } catch (err) {
