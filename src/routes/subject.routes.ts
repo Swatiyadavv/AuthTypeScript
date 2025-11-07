@@ -14,3 +14,4 @@ router.get("/search", findSubjects);
 router.delete("/:id", removeSubject);
 
 export default router;
+
