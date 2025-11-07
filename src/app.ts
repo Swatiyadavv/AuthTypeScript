@@ -3,7 +3,7 @@ import cors from "cors";
 import authRoutes from "../src/routes/admin.route";
 import userRoutes from "../src/routes/user.route";
 import subjectRoutes from "../src/routes/subject.routes";
-
+import schoolRoutes from "../src/routes/school.route";
 
 const app: Application = express();
 
@@ -17,7 +17,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
 app.use("/api/subjects", subjectRoutes);
-
+app.use("/api/schools", schoolRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
